@@ -25,11 +25,11 @@ tf.compat.v1.enable_eager_execution()
 tf.executing_eagerly()
 
 # Q-learning settings
-learning_rate = 0.00025
+learning_rate = 0.001 # init value: .00025
 discount_factor = 0.99
 replay_memory_size = 10000
 num_train_epochs = 5
-learning_steps_per_epoch = 2000
+learning_steps_per_epoch = 1000 # init value: 2000
 target_net_update_steps = 1000
 
 # NN learning settings
@@ -49,7 +49,7 @@ skip_learning = False
 watch = True
 
 # Configuration file path
-config_file_path = os.path.join(vzd.scenarios_path, "simpler_basic.cfg")
+config_file_path = os.path.join(vzd.scenarios_path, "my_way_home.cfg")
 model_savefolder = "./model"
 
 if len(tf.config.experimental.list_physical_devices("GPU")) > 0:
