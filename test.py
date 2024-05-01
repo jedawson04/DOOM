@@ -26,17 +26,16 @@ tf.executing_eagerly()
 
 
 # WE WANT TO: alter the state space -- the things we can view, the things we can remember -- 
-# within this -- NEAT seems like a viable option for Q-learning to use as an F -- temporary reward 
+# within this -- NEAT seems like a viable option for Q-learning to use as an F(state, action) -- temporary reward 
 # also interested in exploring 'integrate Fuzzy Rule Interpolation (FRI) and use sparse fuzzy rule-bases' -- as a 'stretch goal' 
 
-# also, as a note, this code is frustratingly readble... i mean like, come on.
+# also, as a note, this code is frustratingly readable... i mean like, come on.
 tf.compat.v1.enable_eager_execution()
 tf.executing_eagerly()
 
 # Q-learning settings
-learning_rate = 0.001 # init value: .00025
+learning_rate = 0.00025 # init value: .00025
 # This is how much we weigh the future (with 1 = all future)
-learning_rate = 0.001 # init value: .00025 
 # Weights how important the future is (expotential decay)
 discount_factor = 0.99
 # self evident
@@ -46,6 +45,9 @@ num_train_epochs = 5
 learning_steps_per_epoch = 1000 # init value: 2000
 # when you update agent -- has to be <= learning_steps_per_epoch
 test_episodes_per_epoch = 100
+
+batch_size = 64
+target_net_update_steps = 1000
 
 # Other parameters
 frames_per_action = 12
@@ -58,7 +60,7 @@ skip_learning = False
 watch = True
 
 # Configuration file path
-config_file_path = os.path.join(vzd.scenarios_path, "my_way_home.cfg")
+config_file_path = os.path.join(vzd.scenarios_path, "simpler_basic.cfg")
 model_savefolder = "./model"
 
 if len(tf.config.experimental.list_physical_devices("GPU")) > 0:
@@ -80,11 +82,15 @@ def preprocess(img):
 def initialize_game():
     print("Initializing doom...")
     game = vzd.DoomGame()
-    game.load_config(config_file_path)
+    assert game.load_config(config_file_path)
     game.set_window_visible(False)
     game.set_mode(vzd.Mode.PLAYER)
     game.set_screen_format(vzd.ScreenFormat.GRAY8)
     game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
+
+    game.clear_available_buttons()
+    game.add_available_button(vzd.Button.ATTACK)
+    game.add_available_button(vzd.Button.TURN_LEFT_RIGHT_DELTA)
     game.init()
     print("Doom initialized.")
 
@@ -93,7 +99,7 @@ def initialize_game():
 
 class DQNAgent:
     def __init__(
-        self, num_actions=8, epsilon=1, epsilon_min=0.1, epsilon_decay=0.9995, load=load
+        self, num_actions=4, epsilon=1, epsilon_min=0.1, epsilon_decay=0.9995, load=load
     ):
         self.epsilon = epsilon
         self.epsilon_min = epsilon_min
@@ -296,7 +302,7 @@ if __name__ == "__main__":
     replay_memory = deque(maxlen=replay_memory_size)
 
     n = game.get_available_buttons_size()
-    actions = [list(a) for a in it.product([0, 1], repeat=n)]
+    actions = [[1, 0], [0, 0], [0, 1], [0, -1]]
 
     with tf.device(DEVICE):
 
