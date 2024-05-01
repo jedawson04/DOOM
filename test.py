@@ -20,25 +20,16 @@ from tqdm import trange
 
 import vizdoom as vzd
 
-# WE WANT TO: alter the state space -- the things we can view, the things we can remember -- 
-# within this -- NEAT seems like a viable option for Q-learning to use as an F -- temporary reward 
-# also interested in exploring 'integrate Fuzzy Rule Interpolation (FRI) and use sparse fuzzy rule-bases' -- as a 'stretch goal' 
 
-# also, as a note, this code is frustratingly readble... i mean like, come on.
 tf.compat.v1.enable_eager_execution()
 tf.executing_eagerly()
 
 # Q-learning settings
-# This is how much we weigh the future (with 1 = all future)
-learning_rate = 0.001 # init value: .00025 
-# Weights how important the future is (expotential decay)
+learning_rate = 0.001 # init value: .00025
 discount_factor = 0.99
-# self evident
 replay_memory_size = 10000
 num_train_epochs = 5
-# how many DOOMS
 learning_steps_per_epoch = 1000 # init value: 2000
-# when you update agent -- has to be <= learning_steps_per_epoch
 target_net_update_steps = 1000
 
 # NN learning settings
