@@ -76,7 +76,7 @@ def preprocess(img):
     img = img.astype(np.float32)
     img = np.expand_dims(img, axis=-1)
 
-    return tf.stack(img)
+    return img
 
 
 def initialize_game():

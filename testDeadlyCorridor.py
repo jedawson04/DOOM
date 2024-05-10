@@ -40,7 +40,7 @@ learning_rate = 0.00025 # init value: .00025
 discount_factor = 0.99
 # self evident
 replay_memory_size = 10000
-num_train_epochs = 5
+num_train_epochs = 15
 # how many DOOMS
 learning_steps_per_epoch = 2000 # init value: 2000
 # when you update agent -- has to be <= learning_steps_per_epoch
@@ -99,7 +99,7 @@ def initialize_game():
 
 class DQNAgent:
     def __init__(
-        self, num_actions=128, epsilon=1, epsilon_min=0.1, epsilon_decay=0.9995, load=load
+        self, num_actions=16, epsilon=1, epsilon_min=0.1, epsilon_decay=0.9995, load=load
     ):
         self.epsilon = epsilon
         self.epsilon_min = epsilon_min
