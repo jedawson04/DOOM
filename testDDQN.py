@@ -29,6 +29,7 @@ tf.executing_eagerly()
 # within this -- NEAT seems like a viable option for Q-learning to use as an F(state, action) -- temporary reward 
 # also interested in exploring 'integrate Fuzzy Rule Interpolation (FRI) and use sparse fuzzy rule-bases' -- as a 'stretch goal' 
 
+# also, as a note, this code is frustratingly readable... i mean like, come on.
 tf.compat.v1.enable_eager_execution()
 tf.executing_eagerly()
 
@@ -39,8 +40,8 @@ learning_rate = 0.00025 # init value: .00025
 discount_factor = 0.99
 # self evident
 replay_memory_size = 10000
-# how many DOOMS 
-num_train_epochs = 20
+num_train_epochs = 5
+# how many DOOMS
 learning_steps_per_epoch = 1000 # init value: 2000
 # when you update agent -- has to be <= learning_steps_per_epoch
 test_episodes_per_epoch = 100
@@ -59,7 +60,7 @@ skip_learning = False
 watch = True
 
 # Configuration file path
-config_file_path = os.path.join(vzd.scenarios_path, "deadly_corridor.cfg")
+config_file_path = os.path.join(vzd.scenarios_path, "simpler_basic.cfg")
 model_savefolder = "./model"
 
 if len(tf.config.experimental.list_physical_devices("GPU")) > 0:
@@ -111,6 +112,8 @@ class DQNAgent:
             print("Loading model from: ", model_savefolder)
             self.dqn = tf.keras.models.load_model(model_savefolder)
         else:
+            self.dqnA = DQN(self.num_actions)
+            self.dqnB = DQN(self.num_actions)
             self.dqn = DQN(self.num_actions)
             self.target_net = DQN(self.num_actions)
 
@@ -118,6 +121,14 @@ class DQNAgent:
         self.target_net.set_weights(self.dqn.get_weights())
 
     def choose_action(self, state):
+        # get both weights and take an average of them, which we use to update the weights
+        aWeights = self.dqnA.get_weights()
+        bWeights = self.dqnB.get_weights()
+        mixedWeights = [np.mean(np.array([ a,b ]), axis=0) for a,b in list(zip(aWeights, bWeights))] # currently, this isn't working -- we are getting : 
+        # ValueError: You called `set_weights(weights)` on layer "dqn_2" with a weight list of length 16, but the layer was expecting 12 weights.
+        # mixedWeights = [np.mean(np.array([ a,b ]), axis=0) for _ in range
+        print(mixedWeights)
+        self.dqn.set_weights(mixedWeights) # erroring here.
         if self.epsilon < np.random.uniform(0, 1):
             action = int(tf.argmax(self.dqn(tf.reshape(state, (1, 30, 45, 1))), axis=1))
         else:
@@ -133,15 +144,20 @@ class DQNAgent:
         ids = extractDigits(row_ids, actions)
         done_ids = extractDigits(np.where(dones)[0])
 
+        ## Choose either A or B
+        dqn = self.dqnA if np.random.uniform(0, 1) > 0.5 else self.dqnB
+        dqnOther = self.dqnB if dqn == self.dqnA else self.dqnA
+        # dqnAgentOther = agent.dqnB if dqn == self.dqnA else agent.dqnA
+            
         with tf.GradientTape() as tape:
             tape.watch(self.dqn.trainable_variables)
 
-            Q_prev = tf.gather_nd(self.dqn(screen_buf), ids)
+            Q_prev = tf.gather_nd(dqn(screen_buf), ids)
 
             Q_next = self.target_net(next_screen_buf)
             Q_next = tf.gather_nd(
                 Q_next,
-                extractDigits(row_ids, tf.argmax(agent.dqn(next_screen_buf), axis=1)),
+                extractDigits(row_ids, tf.argmax(dqnOther(next_screen_buf), axis=1)),
             )
 
             q_target = rewards + self.discount_factor * Q_next
@@ -154,8 +170,8 @@ class DQNAgent:
 
             td_error = tf.keras.losses.MSE(q_target, Q_prev)
 
-        gradients = tape.gradient(td_error, self.dqn.trainable_variables)
-        self.optimizer.apply_gradients(zip(gradients, self.dqn.trainable_variables))
+        gradients = tape.gradient(td_error, dqn.trainable_variables)
+        self.optimizer.apply_gradients(zip(gradients, dqn.trainable_variables))
 
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay

@@ -32,22 +32,26 @@ model_savefolder = "./model"
 def preprocess(img):
     img = skimage.transform.resize(img, resolution)
     img = img.astype(np.float32)
-    img = np.expand_dims(img, axis=-1)
-
-    return tf.stack(img)
+    # print(img.flatten(), len(img.flatten()))
+    # img = np.expand_dims(img, axis=-1)
+    # print(img, img.shape)
+    return img.flatten()
 
 def eval_genomes(genomes, config):
     global actions
     for genome_id, genome in genomes:
         genome.fitness = 4.0
         net = neat.nn.FeedForwardNetwork.create(genome, config)
-        global game
         game.new_episode()
         while not game.is_episode_finished():
-            screen_buf = preprocess(game.get_state().screen_buffer)
+            buf = game.get_state().screen_buffer
+            # print(len(buf))
+            screen_buf = preprocess(buf)
+            # print(screen_buf)
             action = net.activate(screen_buf)
+            # print(action)
 
-            reward = game.make_action(actions[action])
+            reward = game.make_action(actions[action.index(max(action))])
             genome.fitness += reward
         print(genome.fitness,'\n')
 
@@ -56,7 +60,7 @@ def initialize_game():
     game = vzd.DoomGame()
     assert game.load_config(config_file_path)
     game.set_window_visible(False)
-    game.set_mode(vzd.Mode.PLAYER)
+    game.set_mode(vzd.Mode.ASYNC_PLAYER)
     game.set_screen_format(vzd.ScreenFormat.GRAY8)
     game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
 
@@ -84,40 +88,42 @@ def run(config_file):
     p.add_reporter(neat.Checkpointer(5))
     
     # Run for up to 300 generations.
-    winner = p.run(eval_genomes, num_generations)
+    winner = p.run(eval_genomes, 1)#num_generations)
 
+    
     # Display the winning genome.
     print('\nBest genome:\n{!s}'.format(winner))
 
-    node_names = {-1: 'A', -2: 'B', 0: 'A XOR B'}
-    visualize.draw_net(config, winner, True, node_names=node_names)
-    visualize.draw_net(config, winner, True, node_names=node_names, prune_unused=True)
-    visualize.plot_stats(stats, ylog=False, view=True)
-    visualize.plot_species(stats, view=True)
+    # node_names = {-1: 'A', -2: 'B', 0: 'A XOR B'}
+    # visualize.draw_net(config, winner, True, node_names=node_names)
+    # visualize.draw_net(config, winner, True, node_names=node_names, prune_unused=True)
+    # visualize.plot_stats(stats, ylog=False, view=True)
+    # visualize.plot_species(stats, view=True)
+    test(10, game, winner)
 
     p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
     p.run(eval_genomes, 10)
 
 def test(test_episodes_per_epoch, game, agent):
-    test_scores = []
+    game.set_window_visible(True)
+    game.set_mode(vzd.Mode.ASYNC_PLAYER)
+    game.init()
 
-    print("\nTesting...")
-    for test_episode in trange(test_episodes_per_epoch, leave=False):
+    for _ in range(episodes_to_watch):
         game.new_episode()
         while not game.is_episode_finished():
             state = preprocess(game.get_state().screen_buffer)
-            best_action_index = agent.choose_action(state)
-            game.make_action(actions[best_action_index], frames_per_action)
+            best_actions = agent.activate(state)
 
-        r = game.get_total_reward()
-        test_scores.append(r)
+            # Instead of make_action(a, frame_repeat) in order to make the animation smooth
+            game.set_action(actions[best_actions.index(max(best_actions))])
+            for _ in range(frames_per_action):
+                game.advance_action()
 
-    test_scores = np.array(test_scores)
-    print(
-        f"Results: mean: {test_scores.mean():.1f}±{test_scores.std():.1f},",
-        "min: %.1f" % test_scores.min(),
-        "max: %.1f" % test_scores.max(),
-    )
+        # Sleep between episodes
+        sleep(1.0)
+        score = game.get_total_reward()
+        print("Total score: ", score)
 
 class DQN(Model):
     def __init__(self, num_actions):
@@ -161,13 +167,15 @@ def main():
     # current working directory.
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, 'config-neatTestBasic')
-    run(config_path)
-
-    # agent = NEATAgent()
+    # define and initialize global vars
     global game
     game = initialize_game()
     global actions
     actions = [[1, 0], [0, 0], [0, 1], [0, -1]]
+    
+    run(config_path)
+
+    # agent = NEATAgent()
     # replay_memory = deque(maxlen=replay_memory_size)
 
     # n = game.get_available_buttons_size()
