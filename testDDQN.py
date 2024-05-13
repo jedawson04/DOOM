@@ -127,7 +127,7 @@ class DQNAgent:
         mixedWeights = [np.mean(np.array([ a,b ]), axis=0) for a,b in list(zip(aWeights, bWeights))] # currently, this isn't working -- we are getting : 
         # ValueError: You called `set_weights(weights)` on layer "dqn_2" with a weight list of length 16, but the layer was expecting 12 weights.
         # mixedWeights = [np.mean(np.array([ a,b ]), axis=0) for _ in range
-        print(mixedWeights)
+        # print(mixedWeights[:12])
         self.dqn.set_weights(mixedWeights) # erroring here.
         if self.epsilon < np.random.uniform(0, 1):
             action = int(tf.argmax(self.dqn(tf.reshape(state, (1, 30, 45, 1))), axis=1))
@@ -144,20 +144,21 @@ class DQNAgent:
         ids = extractDigits(row_ids, actions)
         done_ids = extractDigits(np.where(dones)[0])
 
-        ## Choose either A or B
+        ## Choose either A or B for DDQN
         dqn = self.dqnA if np.random.uniform(0, 1) > 0.5 else self.dqnB
         dqnOther = self.dqnB if dqn == self.dqnA else self.dqnA
         # dqnAgentOther = agent.dqnB if dqn == self.dqnA else agent.dqnA
             
         with tf.GradientTape() as tape:
-            tape.watch(self.dqn.trainable_variables)
+            # we want to update either A or B, but not both
+            tape.watch(dqn.trainable_variables)
 
             Q_prev = tf.gather_nd(dqn(screen_buf), ids)
 
             Q_next = self.target_net(next_screen_buf)
             Q_next = tf.gather_nd(
                 Q_next,
-                extractDigits(row_ids, tf.argmax(dqnOther(next_screen_buf), axis=1)),
+                extractDigits(row_ids, tf.argmax(agent.dqn(next_screen_buf), axis=1)),
             )
 
             q_target = rewards + self.discount_factor * Q_next

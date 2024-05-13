@@ -99,10 +99,11 @@ def run(config_file):
     # visualize.draw_net(config, winner, True, node_names=node_names, prune_unused=True)
     # visualize.plot_stats(stats, ylog=False, view=True)
     # visualize.plot_species(stats, view=True)
-    test(10, game, winner)
+    net = neat.nn.FeedForwardNetwork.create(winner, config)
+    test(10, game, net)
 
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
-    p.run(eval_genomes, 10)
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
+    # p.run(eval_genomes, 10)
 
 def test(test_episodes_per_epoch, game, agent):
     game.set_window_visible(True)
