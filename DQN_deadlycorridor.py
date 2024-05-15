@@ -36,11 +36,11 @@ tf.executing_eagerly()
 # Q-learning settings
 learning_rate = 0.00025 # init value: .00025
 # This is how much we weigh the future (with 1 = all future)
-# Weights how important the future is (expotential decay)
+# Weights how important the future is (exponential decay)
 discount_factor = 0.99
 # self evident
 replay_memory_size = 10000
-num_train_epochs = 15
+num_train_epochs = 30
 # how many DOOMS
 learning_steps_per_epoch = 2000 # init value: 2000
 # when you update agent -- has to be <= learning_steps_per_epoch
@@ -88,9 +88,11 @@ def initialize_game():
     game.set_screen_format(vzd.ScreenFormat.GRAY8)
     game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
 
-    # game.clear_available_buttons()
-    # game.add_available_button(vzd.Button.ATTACK)
-    # game.add_available_button(vzd.Button.TURN_LEFT_RIGHT_DELTA)
+    game.clear_available_buttons()
+    game.add_available_button(vzd.Button.ATTACK)
+    game.add_available_button(vzd.Button.TURN_LEFT)
+    game.add_available_button(vzd.Button.TURN_RIGHT)
+    game.add_available_button(vzd.Button.MOVE_FORWARD)
     game.init()
     print("Doom initialized.")
 
@@ -297,11 +299,11 @@ class DQN(Model):
 
 
 if __name__ == "__main__":
-    agent = DQNAgent()
     game = initialize_game()
     replay_memory = deque(maxlen=replay_memory_size)
 
     n = game.get_available_buttons_size()
+    agent = DQNAgent(num_actions=n)
     actions = [list(a) for a in it.product([0, 1], repeat=n)]
     print(len(actions))
 

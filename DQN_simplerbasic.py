@@ -59,7 +59,7 @@ skip_learning = False
 watch = True
 
 # Configuration file path
-config_file_path = os.path.join(vzd.scenarios_path, "deadly_corridor.cfg")
+config_file_path = os.path.join(vzd.scenarios_path, "basic.cfg")
 model_savefolder = "./model"
 
 if len(tf.config.experimental.list_physical_devices("GPU")) > 0:
@@ -115,7 +115,10 @@ class DQNAgent:
             self.target_net = DQN(self.num_actions)
 
     def update_target_net(self):
+        print(self.dqn.get_weights())
+        print(len(self.dqn.get_weights()))
         self.target_net.set_weights(self.dqn.get_weights())
+        exit()
 
     def choose_action(self, state):
         if self.epsilon < np.random.uniform(0, 1):
