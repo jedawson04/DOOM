@@ -40,7 +40,7 @@ discount_factor = 0.99
 # self evident
 replay_memory_size = 10000
 # how many DOOMS 
-num_train_epochs = 20
+num_train_epochs = 30
 learning_steps_per_epoch = 1000 # init value: 2000
 # when you update agent -- has to be <= learning_steps_per_epoch
 test_episodes_per_epoch = 100
@@ -59,7 +59,7 @@ skip_learning = False
 watch = True
 
 # Configuration file path
-config_file_path = os.path.join(vzd.scenarios_path, "basic.cfg")
+config_file_path = os.path.join(vzd.scenarios_path, "simpler_basic.cfg")
 model_savefolder = "./model"
 
 if len(tf.config.experimental.list_physical_devices("GPU")) > 0:
@@ -115,10 +115,7 @@ class DQNAgent:
             self.target_net = DQN(self.num_actions)
 
     def update_target_net(self):
-        print(self.dqn.get_weights())
-        print(len(self.dqn.get_weights()))
         self.target_net.set_weights(self.dqn.get_weights())
-        exit()
 
     def choose_action(self, state):
         if self.epsilon < np.random.uniform(0, 1):

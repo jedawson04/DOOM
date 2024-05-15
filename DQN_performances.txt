@@ -1,0 +1,266 @@
+
+Deadly_Corridor 30 epochs - available moves - ATTACK MOVE_FORWARD TURN_LEFT TURN_RIGHT
+
+Results: mean: 20.6±111.9, min: -116.0, max: 393.9, 
+Testing...
+Results: mean: 39.6±80.0, min: -116.0 max: 236.1                                                                                                                           
+Total elapsed time: 1.41 minutes
+
+Epoch 2
+-------
+Results: mean: 127.7±144.3, min: -115.9, max: 565.4,                                                                                                                       
+
+Testing...
+Results: mean: 154.1±164.8, min: -115.9 max: 758.6                                                                                                                         
+Total elapsed time: 2.86 minutes
+
+Epoch 3
+-------
+Results: mean: 175.4±154.1, min: -113.7, max: 773.7,                                                                                                                       
+
+Testing...
+Results: mean: 185.9±158.9, min: -85.9 max: 644.8                                                                                                                          
+Total elapsed time: 4.32 minutes
+
+Epoch 4
+-------
+Results: mean: 198.6±170.6, min: -115.9, max: 812.8,                                                                                                                       
+
+Testing...
+Results: mean: 172.5±167.8, min: -61.2 max: 746.4                                                                                                                          
+Total elapsed time: 5.77 minutes
+
+Epoch 5
+-------
+Results: mean: 217.7±167.4, min: -98.0, max: 903.7,                                                                                                                        
+
+Testing...
+Results: mean: 202.4±157.3, min: -78.6 max: 561.7                                                                                                                          
+Total elapsed time: 7.23 minutes
+
+Epoch 6
+-------
+Results: mean: 185.5±167.1, min: -111.7, max: 824.1,                                                                                                                       
+
+Testing...
+Results: mean: 184.5±165.3, min: -39.7 max: 793.2                                                                                                                          
+Total elapsed time: 8.68 minutes
+
+Epoch 7
+-------
+Results: mean: 187.0±170.4, min: -114.8, max: 816.3,                                                                                                                       
+
+Testing...
+Results: mean: 164.2±152.8, min: -40.8 max: 709.2                                                                                                                          
+Total elapsed time: 10.13 minutes
+
+Epoch 8
+-------
+Results: mean: 180.9±158.4, min: -91.5, max: 908.3,                                                                                                                        
+
+Testing...
+Results: mean: 227.5±194.6, min: -45.8 max: 880.2                                                                                                                          
+Total elapsed time: 11.59 minutes
+
+Epoch 9
+-------
+Results: mean: 164.4±176.4, min: -116.0, max: 829.0,                                                                                                                       
+
+Testing...
+Results: mean: 194.5±166.4, min: -83.9 max: 615.1                                                                                                                          
+Total elapsed time: 13.04 minutes
+
+Epoch 10
+-------
+Results: mean: 184.5±175.2, min: -116.0, max: 794.4,                                                                                                                       
+
+Testing...
+Results: mean: 237.7±152.1, min: -0.8 max: 613.1                                                                                                                           
+Total elapsed time: 14.49 minutes
+
+Epoch 11
+-------
+Results: mean: 200.0±183.2, min: -116.0, max: 863.2,                                                                                                                       
+
+Testing...
+Results: mean: 182.1±155.6, min: -50.6 max: 748.9                                                                                                                          
+Total elapsed time: 15.93 minutes
+
+Epoch 12
+-------
+Results: mean: 171.6±175.4, min: -116.0, max: 816.3,                                                                                                                       
+
+Testing...
+Results: mean: 192.9±159.2, min: -8.2 max: 873.0                                                                                                                           
+Total elapsed time: 17.39 minutes
+
+Epoch 13
+-------
+Results: mean: 193.0±166.4, min: -103.5, max: 808.0,                                                                                                                       
+
+Testing...
+Results: mean: 194.8±154.3, min: -94.9 max: 768.7                                                                                                                          
+Total elapsed time: 18.84 minutes
+
+Epoch 14
+-------
+Results: mean: 189.0±177.3, min: -116.0, max: 917.6,                                                                                                                       
+
+Testing...
+Results: mean: 178.4±159.6, min: -67.1 max: 666.1                                                                                                                          
+Total elapsed time: 20.29 minutes
+
+Epoch 15
+-------
+Results: mean: 180.1±163.9, min: -94.9, max: 840.6,                                                                                                                        
+
+Testing...
+Results: mean: 182.9±168.1, min: -71.0 max: 695.5                                                                                                                          
+Total elapsed time: 21.74 minutes
+
+Epoch 16
+-------
+Results: mean: 182.7±161.6, min: -85.5, max: 857.4,                                                                                                                        
+
+Testing...
+Results: mean: 174.6±154.0, min: -26.6 max: 801.8                                                                                                                          
+Total elapsed time: 23.20 minutes
+
+Epoch 17
+-------
+Results: mean: 196.6±159.3, min: -34.6, max: 888.6,                                                                                                                        
+
+Testing...
+Results: mean: 180.6±174.8, min: -104.4 max: 816.6                                                                                                                         
+Total elapsed time: 24.65 minutes
+
+Epoch 18
+-------
+Results: mean: 200.3±174.2, min: -108.2, max: 819.9,                                                                                                                       
+
+Testing...
+Results: mean: 176.7±156.8, min: -103.5 max: 521.3                                                                                                                         
+Total elapsed time: 26.10 minutes
+
+Epoch 19
+-------
+Results: mean: 182.2±178.0, min: -116.0, max: 773.0,                                                                                                                       
+
+Testing...
+Results: mean: 189.5±162.0, min: -99.1 max: 747.8                                                                                                                          
+Total elapsed time: 27.55 minutes
+
+Epoch 20
+-------
+Results: mean: 184.2±173.7, min: -116.0, max: 789.0,                                                                                                                       
+
+Testing...
+Results: mean: 203.9±180.7, min: -88.8 max: 767.6                                                                                                                          
+Total elapsed time: 29.02 minutes
+
+Epoch 21
+-------
+Results: mean: 183.4±178.5, min: -116.0, max: 764.9,                                                                                                                       
+
+Testing...
+Results: mean: 209.3±165.2, min: -28.1 max: 805.7                                                                                                                          
+Total elapsed time: 30.48 minutes
+
+Epoch 22
+-------
+Results: mean: 190.3±175.3, min: -116.0, max: 979.3,                                                                                                                       
+
+Testing...
+Results: mean: 196.6±168.6, min: -50.9 max: 865.6                                                                                                                          
+Total elapsed time: 31.94 minutes
+
+Epoch 23
+-------
+Results: mean: 193.2±162.4, min: -115.9, max: 763.3,                                                                                                                       
+
+Testing...
+Results: mean: 219.8±175.4, min: -33.0 max: 823.1                                                                                                                          
+Total elapsed time: 33.35 minutes
+
+Epoch 24
+-------
+Results: mean: 204.5±186.5, min: -116.0, max: 837.1,                                                                                                                       
+
+Testing...
+Results: mean: 188.6±184.3, min: -115.8 max: 769.3                                                                                                                         
+Total elapsed time: 34.78 minutes
+
+Epoch 25
+-------
+Results: mean: 184.3±172.6, min: -116.0, max: 901.8,                                                                                                                       
+
+Testing...
+Results: mean: 197.9±169.6, min: -70.5 max: 740.2                                                                                                                          
+Total elapsed time: 36.19 minutes
+
+Epoch 26
+-------
+Results: mean: 196.1±172.0, min: -98.6, max: 797.0,                                                                                                                        
+
+Testing...
+Results: mean: 207.2±185.4, min: -70.9 max: 760.7                                                                                                                          
+Total elapsed time: 37.60 minutes
+
+Epoch 27
+-------
+Results: mean: 176.3±162.9, min: -115.2, max: 759.1,                                                                                                                       
+
+Testing...
+Results: mean: 188.2±167.1, min: -68.9 max: 740.9                                                                                                                          
+Total elapsed time: 39.00 minutes
+
+Epoch 28
+-------
+Results: mean: 194.2±168.2, min: -116.0, max: 850.3,                                                                                                                       
+
+Testing...
+Results: mean: 166.0±143.4, min: -89.3 max: 527.6                                                            exit()                                                              
+Total elapsed time: 40.41 minutes
+
+Epoch 29
+-------
+Results: mean: 185.0±161.2, min: -115.9, max: 843.4,                                                                                                                       
+
+Testing...
+Results: mean: 191.9±179.1, min: -71.0 max: 896.4                                                                                                                          
+Total elapsed time: 41.83 minutes
+
+Epoch 30
+-------
+Results: mean: 188.0±181.2, min: -115.9, max: 885.4,                                                                                                                       
+
+Testing...
+Results: mean: 193.1±187.1, min: -79.5 max: 808.5                                                                                                                          
+Total elapsed time: 43.24 minutes
+======================================
+Training is finished.
+Total score:  89.92523193359375
+Total score:  128.0946807861328
+Total score:  12.813919067382812
+Total score:  6.281280517578125
+Total score:  676.5546569824219
+Total score:  304.1753387451172
+Total score:  347.6600646972656
+Total score:  45.31739807128906
+Total score:  4.090728759765625
+Total score:  66.03523254394531
+Total score:  -7.7763214111328125
+Total score:  84.08329772949219
+Total score:  79.68359375
+Total score:  390.1734161376953
+Total score:  89.44476318359375
+Total score:  334.72947692871094
+Total score:  69.93641662597656
+Total score:  549.4606323242188
+Total score:  90.80056762695312
+Total score:  60.14942932128906
+
+
+Simpler_Basic 30 epochs 
+
+Find_Way_Home 30 epochs 
