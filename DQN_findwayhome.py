@@ -88,8 +88,7 @@ def initialize_game():
     game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
 
     game.clear_available_buttons()
-    game.add_available_button(vzd.Button.TURN_LEFT)
-    game.add_available_button(vzd.Button.TURN_RIGHT)
+    game.add_available_button(vzd.Button.TURN_LEFT_RIGHT_DELTA)
     game.add_available_button(vzd.Button.MOVE_FORWARD)
     game.init()
     print("Doom initialized.")
@@ -299,12 +298,9 @@ class DQN(Model):
 if __name__ == "__main__":
     game = initialize_game()
     replay_memory = deque(maxlen=replay_memory_size)
-
-    n = game.get_available_buttons_size()
-    agent = DQNAgent(num_actions=n)
-    actions = [list(a) for a in it.product([0, 1], repeat=n)]
-    print(len(actions))
-
+    agent = DQNAgent(num_actions=3) 
+    # allows us to turn left, right and go forward
+    actions = [[1, 0], [-1,0], [0,1]]
     with tf.device(DEVICE):
 
         if not skip_learning:

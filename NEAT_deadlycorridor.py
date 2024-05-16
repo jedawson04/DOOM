@@ -137,11 +137,12 @@ def main():
     # here so that the script will run successfully regardless of the
     # current working directory.
     local_dir = os.path.dirname(__file__)
-    config_path = os.path.join(local_dir, 'config-simplerbasic')
+    config_path = os.path.join(local_dir, 'config-deadlycorridor')
     # define and initialize global vars
     global game
     game = initialize_game()
     global actions
+    # optimal action space
     actions = [[1, 0, 0, 0, 0], [1, 0, 1, 0, 0], [0, 1, 0, 0, 0], [0, -1, 0, 0, 0], [0, 0, 1, 1, 0], [0, 0, 1, 0, 1], [1, 0, 1, 1, 0], [1, 0, 1, 0, 1]]
     
     run(config_path)
